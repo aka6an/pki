@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Evolution of PKI: An Interactive Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral Harmony -->
+    <!-- Application Structure Plan: The SPA is designed as a thematic, single-page narrative scroll. This structure was chosen over a direct report-to-page mapping to create a more engaging and logical user journey. The flow guides the user from foundational concepts ('PKI Today') to current growth drivers ('New Frontiers'), the competitive environment ('The Ecosystem'), the most significant future challenge ('The Quantum Threat'), and a forward-looking conclusion ('The Future of Trust'). This thematic approach breaks down a dense, complex topic into digestible, interconnected sections, enhancing comprehension and retention. A sticky navigation bar allows for both linear exploration and direct access to specific topics, catering to different user needs. -->
+    <!-- Visualization & Content Choices: 
+        - PKI Core Concepts -> Inform -> Interactive HTML/CSS Diagram -> Click-to-reveal -> Makes the abstract 'Chain of Trust' tangible and self-paced.
+        - New Frontiers (IoT, DevSecOps, AI) -> Inform/Organize -> Accordion-style cards -> Click-to-expand -> Presents distinct growth areas cleanly, keeping the initial UI uncluttered.
+        - Market Growth -> Inform/Compare -> Bar Chart (Chart.js) -> Hover for details -> Provides an immediate visual impact of market trends, which is more effective than text alone.
+        - Alternatives/Players -> Compare -> Dynamic HTML Table -> Button-click to swap data -> Allows direct comparison of complex data sets (from report tables 1 & 2) without overwhelming the user with information overload.
+        - PQC Migration -> Explain Change -> Interactive HTML/CSS Timeline -> Click-to-reveal stage details -> Simplifies a complex, multi-stage process into a clear, linear narrative.
+        - PKI & IAM Convergence -> Inform/Organize -> Two-column layout with simple CSS diagram -> Static display -> Clearly separates the concept explanation from the forward-looking predictions for a strong concluding section.
+        - All choices confirm NO SVG/Mermaid, using Chart.js (Canvas) and structured HTML/CSS for all visuals. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #383838;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: #A58D78;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover:after, .nav-link.active:after {
+            width: 100%;
+            left: 0;
+            background: #A58D78;
+        }
+        .card-glow {
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .card-glow:hover {
+            box-shadow: 0 0 20px rgba(165, 141, 120, 0.3);
+        }
+        .timeline-item.active .timeline-dot {
+            background-color: #A58D78;
+            transform: scale(1.25);
+        }
+        .timeline-item.active .timeline-title {
+            color: #A58D78;
+            font-weight: 600;
+        }
+        .tab-button.active {
+            background-color: #A58D78;
+            color: #FFFFFF;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <h1 class="text-xl font-bold text-[#4A4A4A]">The PKI Evolution</h1>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#foundation" class="nav-link text-gray-600 hover:text-[#A58D78]">Foundation</a>
+                    <a href="#frontiers" class="nav-link text-gray-600 hover:text-[#A58D78]">Frontiers</a>
+                    <a href="#ecosystem" class="nav-link text-gray-600 hover:text-[#A58D78]">Ecosystem</a>
+                    <a href="#quantum" class="nav-link text-gray-600 hover:text-[#A58D78]">Quantum</a>
+                    <a href="#future" class="nav-link text-gray-600 hover:text-[#A58D78]">Future</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="py-20 md:py-32 bg-[#F7F2EC]">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-6xl font-bold text-[#4A4A4A] leading-tight">Navigating the Future of Digital Trust</h2>
+                <p class="mt-6 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                    Public Key Infrastructure (PKI) has evolved from a simple security protocol into the strategic core of the digital economy, shaped by the explosion of machine identities, the dawn of quantum computing, and a new paradigm of Zero Trust. This interactive report explores the forces driving PKI's transformation.
+                </p>
+            </div>
+        </section>
+
+        <section id="foundation" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-[#4A4A4A]">The Foundational Pillar</h3>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">PKI provides the bedrock of secure digital interaction through a hierarchical "chain of trust." This system allows entities to verify each other's identity without prior contact. Explore the components below to understand how this fundamental trust is established across the global internet.</p>
+                </div>
+
+                <div class="grid md:grid-cols-5 gap-4 items-center text-center">
+                    <div id="trust-root" class="trust-component p-4 cursor-pointer">
+                        <div class="text-4xl">🏛️</div>
+                        <h4 class="font-semibold mt-2">Root CA</h4>
+                    </div>
+                    <div class="text-2xl text-gray-400 font-mono">&gt;&gt;</div>
+                    <div id="trust-intermediate" class="trust-component p-4 cursor-pointer">
+                        <div class="text-4xl">🏢</div>
+                        <h4 class="font-semibold mt-2">Intermediate CA</h4>
+                    </div>
+                    <div class="text-2xl text-gray-400 font-mono">&gt;&gt;</div>
+                    <div id="trust-entity" class="trust-component p-4 cursor-pointer">
+                        <div class="text-4xl">🌐</div>
+                        <h4 class="font-semibold mt-2">End-Entity Certificate</h4>
+                    </div>
+                </div>
+                <div id="trust-explanation" class="mt-8 p-6 bg-white rounded-lg shadow-md min-h-[120px] flex items-center justify-center transition-all duration-300">
+                    <p class="text-gray-600 text-center">Click on a component above to see its role in the chain of trust.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="frontiers" class="py-16 md:py-24 bg-[#F7F2EC]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-[#4A4A4A]">The New Frontiers of PKI</h3>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">PKI's strategic importance is growing as it expands to secure new, hyper-scale domains. The challenge has shifted from managing thousands of human identities to managing billions of automated machine identities. Click each card to learn more.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="accordion-item bg-white p-8 rounded-xl shadow-lg card-glow cursor-pointer">
+                        <div class="flex items-center">
+                            <span class="text-3xl mr-4">📡</span>
+                            <h4 class="text-xl font-semibold">Securing the Internet of Things (IoT)</h4>
+                        </div>
+                        <div class="accordion-content hidden mt-4 text-gray-600">
+                            <p>PKI provides a unique, cryptographically verifiable identity for every IoT device, from sensors to robots. This enables mutual authentication, secures data in transit, and validates firmware updates, preventing widespread attacks on these often physically insecure endpoints.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item bg-white p-8 rounded-xl shadow-lg card-glow cursor-pointer">
+                        <div class="flex items-center">
+                            <span class="text-3xl mr-4">📦</span>
+                            <h4 class="text-xl font-semibold">Fortifying the Software Supply Chain</h4>
+                        </div>
+                        <div class="accordion-content hidden mt-4 text-gray-600">
+                            <p>In DevSecOps, PKI establishes trust at every stage of the CI/CD pipeline. It authenticates developers, signs code to ensure its integrity, and creates tamper-proof attestations for Software Bills of Materials (SBOMs), providing verifiable provenance for every software component.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item bg-white p-8 rounded-xl shadow-lg card-glow cursor-pointer">
+                        <div class="flex items-center">
+                            <span class="text-3xl mr-4">🤖</span>
+                            <h4 class="text-xl font-semibold">Establishing Trust in AI Agents</h4>
+                        </div>
+                        <div class="accordion-content hidden mt-4 text-gray-600">
+                            <p>As AI agents become autonomous, PKI provides them with unforgeable digital identities. This secures agent-to-agent communication, ensures accountability through digitally signed actions, and creates a non-repudiable audit trail for all AI-driven operations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ecosystem" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-[#4A4A4A]">The PKI Ecosystem</h3>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">The PKI market is a dynamic environment fueled by digital transformation and new regulations, with projections showing significant growth. It features diverse trust models and key players who have adapted to disruptive forces like free, automated certificate issuance.</p>
+                </div>
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h4 class="text-xl font-semibold text-center mb-4">Projected PKI Market Growth (USD Billions)</h4>
+                    <div class="chart-container">
+                        <canvas id="marketChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="mt-16">
+                    <div class="flex justify-center mb-8">
+                        <div class="flex space-x-2 bg-gray-200 p-1 rounded-full">
+                            <button id="tab-alternatives" class="tab-button px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-300 active">Encryption Alternatives</button>
+                            <button id="tab-players" class="tab-button px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-300">Market Players</button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto bg-white rounded-xl shadow-lg p-4">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead id="table-head" class="bg-gray-50">
+                            </thead>
+                            <tbody id="table-body" class="bg-white divide-y divide-gray-200">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quantum" class="py-16 md:py-24 bg-[#F7F2EC]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-[#4A4A4A]">The Quantum Imperative</h3>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">The rise of quantum computing poses an existential threat to current public-key cryptography. This necessitates a global migration to Post-Quantum Cryptography (PQC). The journey is complex, touching every piece of digital infrastructure. Follow the timeline to understand the challenge.</p>
+                </div>
+                <div class="flex flex-col md:flex-row justify-between items-start">
+                    <div class="w-full md:w-1/3 mb-8 md:mb-0">
+                        <ul class="space-y-4">
+                            <li id="timeline-1" class="timeline-item cursor-pointer p-4 rounded-lg active">
+                                <h4 class="timeline-title font-semibold text-lg">1. Current State: Vulnerable Crypto</h4>
+                            </li>
+                            <li id="timeline-2" class="timeline-item cursor-pointer p-4 rounded-lg">
+                                <h4 class="timeline-title font-semibold text-lg">2. The Threat: Harvest Now, Decrypt Later</h4>
+                            </li>
+                            <li id="timeline-3" class="timeline-item cursor-pointer p-4 rounded-lg">
+                                <h4 class="timeline-title font-semibold text-lg">3. The Solution: NIST PQC Standards</h4>
+                            </li>
+                            <li id="timeline-4" class="timeline-item cursor-pointer p-4 rounded-lg">
+                                <h4 class="timeline-title font-semibold text-lg">4. The Migration: A Hybrid Approach</h4>
+                            </li>
+                             <li id="timeline-5" class="timeline-item cursor-pointer p-4 rounded-lg">
+                                <h4 class="timeline-title font-semibold text-lg">5. Future State: Quantum-Safe PKI</h4>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-2/3 md:pl-12">
+                        <div id="timeline-content" class="bg-white p-8 rounded-xl shadow-lg min-h-[250px]">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="future" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-[#4A4A4A]">The Future of Trust</h3>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">The future of PKI lies in its deep integration with identity management and its adoption as a core utility for the digital economy. Automation, convergence, and regulation are shaping the next generation of digital trust.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <h4 class="text-xl font-semibold text-center mb-4">Convergence: PKI + IAM</h4>
+                        <div class="flex justify-center items-center space-x-4 my-6">
+                            <div class="text-center">
+                                <div class="w-24 h-24 rounded-full bg-[#EAE3DC] flex items-center justify-center font-bold">PKI</div>
+                                <p class="mt-2 text-sm text-gray-500">Strong Identity</p>
+                            </div>
+                            <div class="text-4xl text-[#A58D78] font-light">+</div>
+                            <div class="text-center">
+                                <div class="w-24 h-24 rounded-full bg-[#EAE3DC] flex items-center justify-center font-bold">IAM</div>
+                                <p class="mt-2 text-sm text-gray-500">Access Policy</p>
+                            </div>
+                        </div>
+                        <div class="text-center text-2xl font-bold my-4 text-gray-500">↓</div>
+                        <div class="text-center">
+                             <div class="w-48 h-24 rounded-lg bg-[#A58D78] text-white flex items-center justify-center font-bold mx-auto">Zero Trust</div>
+                             <p class="mt-2 text-sm text-gray-500">Verified Access</p>
+                        </div>
+                        <p class="mt-6 text-gray-600">In a Zero Trust world, PKI provides the verifiable, cryptographic identity ("who are you?"), while Identity and Access Management (IAM) provides the policy-based authorization ("what can you do?"). These two domains are merging into a unified "identity fabric" to secure every connection.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-2xl font-bold mb-6">Key Future Projections</h4>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="text-[#A58D78] font-bold text-xl mr-4">1</span>
+                                <div><strong class="text-gray-800">PKI-as-a-Service Becomes Default:</strong> Organizations will consume PKI as a cloud utility, outsourcing infrastructure complexity to focus on governance.</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-[#A58D78] font-bold text-xl mr-4">2</span>
+                                <div><strong class="text-gray-800">Hybrid Certificates as Standard:</strong> A mix of classical and PQC algorithms will be the norm for the next decade to ensure a smooth, secure transition.</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-[#A58D78] font-bold text-xl mr-4">3</span>
+                                <div><strong class="text-gray-800">Machine Identity as Growth Engine:</strong> The market will be driven by the need to secure billions of IoT devices, cloud workloads, and AI agents.</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-[#A58D78] font-bold text-xl mr-4">4</span>
+                                <div><strong class="text-gray-800">Market Consolidation & Specialization:</strong> A few large platforms will dominate, while specialized private CAs for specific ecosystems will proliferate.</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-[#A58D78] font-bold text-xl mr-4">5</span>
+                                <div><strong class="text-gray-800">PKI as Regulated Public Infrastructure:</strong> Governments will increasingly adopt PKI as the legal foundation for national digital identity programs.</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#4A4A4A] text-white py-8">
+        <div class="container mx-auto px-6 text-center text-sm">
+            <p>Interactive PKI Evolution Report | Synthesized from "The PKI Evolution: Navigating the Convergence of Trust, Identity, and Quantum Disruption"</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const data = {
+                trustChain: {
+                    root: { title: "Root Certificate Authority (CA)", description: "The ultimate anchor of trust in a PKI. The Root CA's certificate is pre-installed in browsers and operating systems. It is kept highly secure and offline, used only to sign certificates for Intermediate CAs." },
+                    intermediate: { title: "Intermediate Certificate Authority (CA)", description: "Acts as a bridge between the offline Root CA and the end-entity certificates. This structure protects the Root CA from exposure. An Intermediate CA is authorized to issue certificates to servers, users, and devices." },
+                    entity: { title: "End-Entity Certificate", description: "The certificate issued to a specific domain (for a website), user (for email), or device (for IoT). This is the certificate that browsers and other systems check to verify an entity's identity." }
+                },
+                tables: {
+                    alternatives: {
+                        headers: ["Feature", "S/MIME (PKI-based)", "PGP / OpenPGP", "Microsoft Purview (OME)"],
+                        rows: [
+                            ["<strong>Trust Model</strong>", "Hierarchical 'Chain of Trust' based on trusted CAs.", "Decentralized 'Web of Trust' based on peer signing.", "Centralized, service-based trust in the Microsoft 365 platform."],
+                            ["<strong>Key Management</strong>", "User/organization-managed certificates.", "User-managed key pairs and trusted keyrings.", "Service-managed by Microsoft; transparent to the user."],
+                            ["<strong>Interoperability</strong>", "High (open IETF standards).", "High (open OpenPGP standard).", "Limited (seamless within M365, external users use a web portal)."],
+                            ["<strong>Ease of Use</strong>", "Moderate to complex (requires certificate installation).", "Complex (requires user understanding of key management).", "High (policy-driven and automated)."],
+                            ["<strong>Typical Use Case</strong>", "Corporate/government email security, digital signatures.", "Privacy-conscious individuals, journalists, activists.", "Enterprise email encryption for regulatory compliance in the M365 ecosystem."]
+                        ]
+                    },
+                    players: {
+                        headers: ["Certificate Authority", "Primary Market Focus", "Business Model", "Key Strengths"],
+                        rows: [
+                            ["<strong>DigiCert</strong>", "Large Enterprises, Fortune 500, Financial Services.", "Premium, high-assurance. Sells comprehensive management platforms.", "High-assurance OV/EV certs, robust CertCentral platform, strong brand."],
+                            ["<strong>Sectigo</strong>", "Broad Market (SMBs to Enterprises), Hosting Providers.", "High-volume, price-competitive. Wide spectrum of products.", "Largest commercial CA by market share, affordable DV options (PositiveSSL)."],
+                            ["<strong>GlobalSign</strong>", "Enterprises, IoT, DevOps Automation.", "Enterprise-focused, high-volume automation. Sells managed PKI.", "Strong focus on automating for IoT and DevOps, established reputation."],
+                            ["<strong>Let's Encrypt</strong>", "Developers, Small Websites, Non-profits.", "Non-profit, free. Funded by sponsorships, full automation.", "Free DV certificates, mandatory automation via ACME protocol, promotes best practices."]
+                        ]
+                    }
+                },
+                timeline: {
+                    "1": { title: "Current State: Vulnerable Crypto", content: "Today's global PKI relies on algorithms like RSA and ECC. Their security is based on mathematical problems that are extremely difficult for classical computers to solve, but will be trivial for a powerful quantum computer." },
+                    "2": { title: "The Threat: Harvest Now, Decrypt Later", content: "Adversaries are actively intercepting and storing today's encrypted data. They plan to decrypt this trove of sensitive information retroactively once a cryptographically relevant quantum computer is available, making the quantum threat an urgent, present-day risk." },
+                    "3": { title: "The Solution: NIST PQC Standards", content: "The U.S. National Institute of Standards and Technology (NIST) has standardized a new suite of quantum-resistant algorithms (like ML-KEM and ML-DSA). These are based on different mathematical problems believed to be secure against both classical and quantum computers." },
+                    "4": { title: "The Migration: A Hybrid Approach", content: "The transition will not be a sudden switch. A 'hybrid' approach will be used, combining a classical algorithm with a new PQC algorithm. This ensures backward compatibility with older systems and provides a safety net against potential flaws in the new cryptography." },
+                    "5": { title: "Future State: Quantum-Safe PKI", content: "The end goal is a fully migrated global infrastructure where all public-key cryptography is resistant to quantum attacks. This monumental effort will require a multi-decade, coordinated refresh of all hardware, software, and protocols across the digital ecosystem."}
+                }
+            };
+
+            const trustExplanation = document.getElementById('trust-explanation');
+            document.getElementById('trust-root').addEventListener('click', () => updateTrustExplanation('root'));
+            document.getElementById('trust-intermediate').addEventListener('click', () => updateTrustExplanation('intermediate'));
+            document.getElementById('trust-entity').addEventListener('click', () => updateTrustExplanation('entity'));
+
+            function updateTrustExplanation(key) {
+                const item = data.trustChain[key];
+                trustExplanation.innerHTML = `<h5 class="text-lg font-semibold mb-2">${item.title}</h5><p class="text-gray-600 text-center">${item.description}</p>`;
+                document.querySelectorAll('.trust-component').forEach(el => el.classList.remove('bg-yellow-100', 'rounded-lg'));
+                document.getElementById(`trust-${key}`).classList.add('bg-yellow-100', 'rounded-lg');
+            }
+
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const content = item.querySelector('.accordion-content');
+                    const isVisible = !content.classList.contains('hidden');
+                    
+                    document.querySelectorAll('.accordion-content').forEach(el => el.classList.add('hidden'));
+                    
+                    if (!isVisible) {
+                        content.classList.remove('hidden');
+                    }
+                });
+            });
+
+            const marketCtx = document.getElementById('marketChart').getContext('2d');
+            new Chart(marketCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['2023', '2024', '2025', '2026', '2027', '2028'],
+                    datasets: [{
+                        label: 'Market Size (USD Billions)',
+                        data: [5.5, 6.8, 8.3, 10.2, 12.5, 15.4],
+                        backgroundColor: 'rgba(165, 141, 120, 0.6)',
+                        borderColor: 'rgba(165, 141, 120, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'USD Billions' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Market Size: $${context.parsed.y} Billion`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const tableHead = document.getElementById('table-head');
+            const tableBody = document.getElementById('table-body');
+            const tabAlternatives = document.getElementById('tab-alternatives');
+            const tabPlayers = document.getElementById('tab-players');
+
+            function renderTable(tableKey) {
+                const tableData = data.tables[tableKey];
+                tableHead.innerHTML = `<tr>${tableData.headers.map(h => `<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${h}</th>`).join('')}</tr>`;
+                tableBody.innerHTML = tableData.rows.map(row => `<tr>${row.map(cell => `<td class="px-6 py-4 whitespace-normal text-sm text-gray-700">${cell}</td>`).join('')}</tr>`).join('');
+            }
+
+            tabAlternatives.addEventListener('click', () => {
+                renderTable('alternatives');
+                tabAlternatives.classList.add('active');
+                tabPlayers.classList.remove('active');
+            });
+            tabPlayers.addEventListener('click', () => {
+                renderTable('players');
+                tabPlayers.classList.add('active');
+                tabAlternatives.classList.remove('active');
+            });
+            
+            renderTable('alternatives');
+
+            const timelineContent = document.getElementById('timeline-content');
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            function updateTimelineContent(id) {
+                const item = data.timeline[id];
+                timelineContent.innerHTML = `<h4 class="text-xl font-bold mb-4">${item.title}</h4><p class="text-gray-600 leading-relaxed">${item.content}</p>`;
+                timelineItems.forEach(el => el.classList.remove('active'));
+                document.getElementById(`timeline-${id}`).classList.add('active');
+            }
+
+            timelineItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const id = item.id.split('-')[1];
+                    updateTimelineContent(id);
+                });
+            });
+
+            updateTimelineContent('1');
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 60) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
