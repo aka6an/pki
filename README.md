@@ -1,4 +1,5 @@
 # The PKI Evolution: Navigating the Convergence of Trust, Identity, and Quantum Disruption
+## Basic research into the current state and the future of PKI
 
 ⛓️ Digital Trust, Reimagined: Are You Ready for the Post-Quantum Era?
 🤿 Take a Deep Dive into the transformation of Public Key Infrastructure (PKI). Far beyond just website security, PKI is being rebuilt to secure a new world of intelligent, connected technology.
